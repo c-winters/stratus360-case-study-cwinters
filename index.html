@@ -2,43 +2,55 @@
 
 <html lang="en">
     <head>
-        
         <meta charset="utf-8">
+        <link rel='stylesheet' href='styles.css'>
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&display=swap" rel="stylesheet">
         <title>Cyber City Comics</title>
     </head>
 
     <body>
-        <button id="next">Next</button>
-        <button id="random">Random</button>
-        <button id="prev">Prev</button>
-        <p id="comic-title"></p>
-        <p id="comic-date"></p>
+        
+        <div class='center'>
+            <span id="comic-title"></span><br>
+            <span id="comic-date"></span>    
+        </div>
+        
+        <div id='buttons' class='center'>
+            <button id="next">NEXT</button>
+            <button id="random">RANDOM</button>
+            <button id="prev">PREV</button>    
+        </div>
 
-        <img id="comic-image" alt="">
+        <div id='div-image'>
+            <img id="comic-image" alt="">
+        </div>
+        
 
-        <p id='transcript'></p>
-        <table id='transcript-table'>
-            <tr>
-                <td>Title:</td>
-                <td id='title-cell'></td>
-            </tr>
-            <tr>
-                <td>Alt:</td>
-                <td id='alt-cell'></td>
-            </tr>
-            <tr>
-                <td>Number:</td>
-                <td id='num-cell'></td>
-            </tr>
-            <tr>
-                <td>Date:</td>
-                <td id='date-cell'></td>
-            </tr>
-            <tr>
-                <td>Image url:</td>
-                <td id='img-url-cell'></td>
-            </tr>
-        </table>
+        <div id='div-transcript'>
+            <table id='transcript-table'>
+                <tr>
+                    <td>Title:</td>
+                    <td id='title-cell'></td>
+                </tr>
+                <tr>
+                    <td>Alt:</td>
+                    <td id='alt-cell'></td>
+                </tr>
+                <tr>
+                    <td>Number:</td>
+                    <td id='num-cell'></td>
+                </tr>
+                <tr>
+                    <td>Date:</td>
+                    <td id='date-cell'></td>
+                </tr>
+                <tr>
+                    <td>Image url:</td>
+                    <td id='img-url-cell'></td>
+                </tr>
+            </table>
+        </div>
     </body>
 
     <footer>

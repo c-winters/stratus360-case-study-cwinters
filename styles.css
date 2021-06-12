@@ -1,0 +1,44 @@
+body {
+    font-family: Helvetica, Arial, sans-serif
+}
+
+#comic-title {
+    font-family: 'Gloria Hallelujah', cursive;
+    font-weight: bold;
+}
+
+#comic-date {
+    font-size: 12px;
+}
+
+img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 1ex;
+}
+
+#buttons {
+    padding: 1ex;
+    font-family: inherit;
+    font-size: 1em;
+}
+
+button {
+    font-family: 'Gloria Hallelujah', cursive;
+    font-weight: bold;
+    border: none;
+    padding: 0.5em 1em;
+}
+
+.center {
+    text-align: center;
+}
+
+table {
+    table-layout: fixed;
+}
+
+#transcript-table {
+    margin: 0 auto;
+}

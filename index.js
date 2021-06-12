@@ -19,7 +19,7 @@ class DomInterface {
         const date = `${month}/${day}/${year}`
         // set element attributes
         this.comicImage.src = img
-        this.comicTitle.innerHTML = title
+        this.comicTitle.innerHTML = title.toUpperCase()
         this.comicDate.innerHTML = date
         this.comicImage.alt = alt
         document.getElementById('title-cell').innerHTML = title
