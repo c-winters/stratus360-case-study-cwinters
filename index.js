@@ -11,6 +11,7 @@ class DomInterface {
         this.comicDate = document.getElementById('comic-date')
         this.transcript = document.getElementById('transcript')
         this.loading = document.getElementById('loading')
+        this.count = document.getElementById('count')
     }
 
     parseTranscript(transcript){
@@ -19,6 +20,8 @@ class DomInterface {
             .replaceAll(']]', '</i>')
             .replaceAll('{{', '<b>')
             .replaceAll('}}', '</b>')
+            .replaceAll('((', '(')
+            .replaceAll('))', ')')
     }
 
     // uses json from fetch to set element attributes
@@ -40,6 +43,10 @@ class DomInterface {
         } 
     }
 
+    setPageCounter(number){
+        this.count.innerHTML = 'Page views: ' + number
+    }
+
 
 }
 
@@ -51,8 +58,11 @@ class RequestController {
 
         // used to send api requests using fetch
         this.corsProxy = 'https://secret-river-48812.herokuapp.com'
-        this.apiUrl = 'https://xkcd.com'
-        this.apiUrlFormat = 'info.0.json'
+        this.xkcdApiUrl = 'https://xkcd.com'
+        this.xkcdApiUrlFormat = 'info.0.json'
+        this.countApiUrl = 'https://api.countapi.xyz'
+        this.countApiHit = 'hit/cewinters'
+
         
         this.latestComicNumber = 0   // number corresponding to the most recent comic
         this.currentComicNumber = 0  // number corresponding to the current comic on page
@@ -62,7 +72,7 @@ class RequestController {
 
         // if there is a number param in url, use it to call for the corresponding comic
         if(this.params.has('number')){
-            this.getLatestComic() // this must be called to set the latestComicNumber
+            this.getLatestComic(false) // this must be called to set the latestComicNumber
             this.getComicByNumber(this.params.get('number'))
         // else just call for the latest comic
         } else {
@@ -80,21 +90,33 @@ class RequestController {
         this.currentComicNumber = number
     }
 
+    // uses count API to increase count for each page
+    increaseCounter(number){
+        const requestUrl = `${this.corsProxy}/${this.countApiUrl}/${this.countApiHit}/pp${number}`
+        fetch(requestUrl)
+            .then(response => response.json())
+            .then(data => this.DomInterface.setPageCounter(data.value))
+    }
+
     // sends request for the latest comic and displays it on page
-    getLatestComic() {
-        const requestUrl = `${this.corsProxy}/${this.apiUrl}/${this.apiUrlFormat}`
+    // false can be passed in to avoid putting the comic on the page and increasing its counter
+    getLatestComic(setComic = true) {
+        const requestUrl = `${this.corsProxy}/${this.xkcdApiUrl}/${this.xkcdApiUrlFormat}`
         fetch(requestUrl)
             .then(response => response.json())
             .then(data => {
-                this.DomInterface.setComic(data)
                 this.setLatestComicNumber(data.num)
-                this.setCurrentComicNumber(data.num)
+                if(setComic == true){
+                    this.DomInterface.setComic(data)
+                    this.increaseCounter(data.num)
+                    this.setCurrentComicNumber(data.num)
+                }
             })
     }
 
     // used to send request for a specific comic by corresponding number and displays it on the page
     getComicByNumber(number){
-        const requestUrl = `${this.corsProxy}/${this.apiUrl}/${number}/${this.apiUrlFormat}`
+        const requestUrl = `${this.corsProxy}/${this.xkcdApiUrl}/${number}/${this.xkcdApiUrlFormat}`
         // used to update the url params to reflect the corresponding comic on page
         const currentUrl = window.location.href.split('?')[0]
         const stateObj = { Title :"Cyber City Comics", Url : `${currentUrl}?number=${number}`}
@@ -103,6 +125,7 @@ class RequestController {
             .then(data => {
                 history.pushState(stateObj, stateObj.Title, stateObj.Url)
                 this.DomInterface.setComic(data)
+                this.increaseCounter(data.num)
                 this.setCurrentComicNumber(data.num)
             })
     }
@@ -144,9 +167,6 @@ class RequestController {
 
 
 const comic = new RequestController();
-//prevButton.addEventListener(click, previousComic())
-//nextButton.addEventListener(click, nextComic())
-//randomButton.addEventListener(click, randomComic())
 
 
 
