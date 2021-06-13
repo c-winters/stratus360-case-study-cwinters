@@ -9,25 +9,37 @@ class DomInterface {
         this.comicImage = document.getElementById('comic-image')
         this.comicTitle = document.getElementById('comic-title')
         this.comicDate = document.getElementById('comic-date')
+        this.transcript = document.getElementById('transcript')
+        this.loading = document.getElementById('loading')
+    }
+
+    parseTranscript(transcript){
+        return transcript.replace(/(?:\r\n|\r|\n)/g, '<br>')
+            .replaceAll('[[', '<i>')
+            .replaceAll(']]', '</i>')
+            .replaceAll('{{', '<b>')
+            .replaceAll('}}', '</b>')
     }
 
     // uses json from fetch to set element attributes
     setComic(data){
         // destructure json
-        const {title, img, month, day, year, alt, num} = data
+        const {title, img, month, day, year, alt, num, transcript} = data
         // format the date
         const date = `${month}/${day}/${year}`
         // set element attributes
+        this.loading.hidden = true
         this.comicImage.src = img
         this.comicTitle.innerHTML = title.toUpperCase()
         this.comicDate.innerHTML = date
         this.comicImage.alt = alt
-        document.getElementById('title-cell').innerHTML = title
-        document.getElementById('alt-cell').innerHTML = alt
-        document.getElementById('num-cell').innerHTML = num
-        document.getElementById('date-cell').innerHTML = date
-        document.getElementById('img-url-cell').innerHTML = img
+        if(transcript == ""){
+            this.transcript.innerText = ""
+        } else {
+            this.transcript.innerHTML = '<b>Transcript:</b><br><br>' + this.parseTranscript(transcript)
+        } 
     }
+
 
 }
 
