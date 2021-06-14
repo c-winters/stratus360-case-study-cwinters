@@ -10,12 +10,13 @@ class DomInterface {
         this.comicTitle = document.getElementById('comic-title')
         this.comicDate = document.getElementById('comic-date')
         this.transcript = document.getElementById('transcript')
-        this.loading = document.getElementById('loading')
+        this.message = document.getElementById('message')
         this.count = document.getElementById('count')
     }
 
+    // returns a more readable version of the transcript
     parseTranscript(transcript){
-        return transcript.replace(/(?:\r\n|\r|\n)/g, '<br>')
+        return transcript.replaceAll('\n', '<br>')
             .replaceAll('[[', '<i>')
             .replaceAll(']]', '</i>')
             .replaceAll('{{', '<b>')
@@ -27,22 +28,23 @@ class DomInterface {
     // uses json from fetch to set element attributes
     setComic(data){
         // destructure json
-        const {title, img, month, day, year, alt, num, transcript} = data
+        const {title, img, month, day, year, alt, transcript} = data
         // format the date
         const date = `${month}/${day}/${year}`
         // set element attributes
-        this.loading.hidden = true
+        this.message.hidden = true
         this.comicImage.src = img
         this.comicTitle.innerHTML = title.toUpperCase()
         this.comicDate.innerHTML = date
         this.comicImage.alt = alt
         if(transcript == ""){
-            this.transcript.innerText = ""
+            this.transcript.innerText = "" // necessary to clear an old transcript if there is no new one
         } else {
             this.transcript.innerHTML = '<b>Transcript:</b><br><br>' + this.parseTranscript(transcript)
         } 
     }
 
+    // sets the page count
     setPageCounter(number){
         this.count.innerHTML = 'Page views: ' + number
     }
@@ -52,6 +54,7 @@ class DomInterface {
 
 // handles sending api requests, uses DomInterface to update the page
 class RequestController {
+    
     constructor() {
 
         this.DomInterface = new DomInterface();
@@ -72,8 +75,14 @@ class RequestController {
 
         // if there is a number param in url, use it to call for the corresponding comic
         if(this.params.has('number')){
+            const number = this.params.get('number')
             this.getLatestComic(false) // this must be called to set the latestComicNumber
-            this.getComicByNumber(this.params.get('number'))
+            if(isNaN(number)){
+                this.DomInterface.message.innerHTML = 'Invalid URL parameter.<br>Must be a number'
+            } else {
+                this.getComicByNumber(number)    
+            }
+            
         // else just call for the latest comic
         } else {
             this.getLatestComic()
@@ -164,7 +173,6 @@ class RequestController {
         this.DomInterface.randomButton.addEventListener('click', () => this.getRandomComic())
     }
 }
-
 
 const comic = new RequestController();
 

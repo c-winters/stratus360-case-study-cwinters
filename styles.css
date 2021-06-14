@@ -1,5 +1,49 @@
 body {
-    font-family: Helvetica, Arial, sans-serif;
+    height: 100%;
+    font-family: 'Montserrat', sans-serif;
+    background-color: #F2F6F8;
+    margin: 0;
+}
+
+main {
+    min-height: calc(100vh - 5em);
+    background-color: white;
+}
+
+header {
+    background-color: #769FB6;
+    color: #1C2826;
+    overflow: hidden;
+    height: 3em;
+}
+
+footer {
+    width: 100%;
+    height: auto;
+    background-color: #769FB6;
+    color: #1C2826;
+    padding: 3px 2px;
+}
+
+#footer-message {
+}
+
+#company-name {
+    font-family: 'Bungee Shade', cursive;
+    font-weight: bold;
+    font-size: large;
+    padding-left: 0.5em;
+    float: left;
+    line-height: 2.5em;
+    color: inherit;
+    text-decoration: none;
+}
+
+#count {
+    font-weight: bold;
+    padding-right: 0.5em;
+    float: right;
+    line-height: 3em;
 }
 
 #comic-title {
@@ -8,17 +52,17 @@ body {
 }
     
 #buttons {
-    padding-top: 2ex;
-    padding-bottom: 1ex;
+    padding-top: 1em;
+    padding-bottom: 1em;
     font-family: inherit;
     border-color: darkslategray;
 }
 
 button {
-    font-family: 'Gloria Hallelujah', cursive;
+    font-family: 'Montserrat', sans-serif;
     font-weight: bold;
     font-size: large;
-    padding: 0.5em 1em;
+    padding: 0.25em 0.5em;
 }
 
 .center {
@@ -39,17 +83,42 @@ img {
     text-align: left;
 }
 
+@media only screen and (max-width: 1024px){
+    #div-image{
+        background-color: white;
+        padding: 1em;
+    }
+}
+
 @media only screen and (min-width: 600px){
+    #company-name {
+        font-size: x-large;
+        padding-left: 1em;
+        line-height: 2em;
+    }
+
+    #count {
+        padding-right: 1em;
+    }
+
     #div-transcipt{
         margin: auto;
         width: 90%;
     }
+    
 }
 
-@media only screen and (min-width: 1200px){
+@media only screen and (min-width: 1024px){
+
+    #comic-title {
+        font-family: 'Gloria Hallelujah', cursive;
+        font-weight: bold;
+        font-size: x-large;
+    }
+
     #div-transcipt{
         margin: auto;
-        width: 60%;
+        width: 90%;
     }
     
     button {
@@ -64,4 +133,12 @@ img {
         padding-top: 1em;
         padding-bottom: 2em;
     }
+        
+    main {
+        width: 70%;
+        height: 100%;
+        padding: 1em 0em;
+        margin: auto;
+    }
+
 }
